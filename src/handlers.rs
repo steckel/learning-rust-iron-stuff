@@ -1,12 +1,21 @@
 extern crate iron;
 extern crate router;
 
-use iron::prelude::{IronError, IronResult, Request, Response};
-use iron::status;
-use router::Router;
-
 use std::error::Error;
 use std::fmt::{self, Debug};
+
+use iron::prelude::{IronError, IronResult, Request, Response};
+use iron::headers::ContentType;
+use iron::status;
+use router::Router;
+use rustc_serialize::json;
+
+#[derive(RustcDecodable, RustcEncodable)]
+pub struct TestStruct  {
+    data_int: u8,
+    data_str: String,
+    data_vector: Vec<u8>,
+}
 
 #[derive(Debug)]
 struct StringError(String);
@@ -22,7 +31,16 @@ impl Error for StringError {
 }
 
 pub fn index(_: &mut Request) -> IronResult<Response> {
-    Result::Ok(Response::with((status::Ok, "Hello World")))
+    let object = TestStruct {
+        data_int: 1,
+        data_str: "homura".to_string(),
+        data_vector: vec![2,3,4,5],
+    };
+
+    // Serialize using `json::encode`
+    let encoded = json::encode(&object).unwrap();
+    let content_type = ContentType::json();
+    Result::Ok(Response::with((content_type.0, status::Ok, encoded)))
 }
 
 pub fn query(req: &mut Request) -> IronResult<Response> {

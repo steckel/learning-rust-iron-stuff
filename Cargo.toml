@@ -7,6 +7,7 @@ authors = ["steckel <steckel@inscriptive.com>"]
 iron = "0.5.*"
 router = "0.5.*"
 env_logger = "0.4.0"
+rustc-serialize = "0.3.*"
 
 [dependencies.logger]
 git = "https://github.com/iron/logger.git"

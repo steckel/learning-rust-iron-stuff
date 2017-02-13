@@ -2,6 +2,7 @@ extern crate iron;
 extern crate router;
 extern crate logger;
 extern crate env_logger;
+extern crate rustc_serialize;
 
 mod handlers;
 

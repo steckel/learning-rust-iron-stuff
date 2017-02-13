@@ -9,8 +9,10 @@ use router::Router;
 
 fn main() {
     let mut router = Router::new();
-    router.get("/", handlers::index_handler, "index");
-    router.get("/:query", handlers::query_handler, "query");
+    router.get("/", handlers::index, "index");
+    router.get("/query/:query", handlers::query, "query");
+    router.get("/error", handlers::error, "error");
+    router.get("/*", handlers::catch_all, "catch_all");
 
     Iron::new(router).http("localhost:3000").unwrap();
 }
